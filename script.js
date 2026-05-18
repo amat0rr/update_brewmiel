@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentLang = "ua";
     let cart = [];
     
+    /* Стан каруселі, де центральний елемент завжди під індексом 1 */
     let flavorsOrder = ["summer", "classic", "winter"];
     
     /* THEME COLORS LOGIC */
@@ -109,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
             catalog_title: "ОБЕРИ <span class='gold-accent'>СМАК</span>",
             card_desc_summer: "Легкий медовий сироп з нотками освіжаючого літнього цитрусу та гірської м'яти.",
             card_desc_classic: "Традиційний рецепт з додаванням благородної кориці, кардамону та духмяної гвоздики.",
-            card_desc_winter: "Насичений гരുവокий темний мед, зігріваючий екстракт імбиру та мускатного горіха.",
+            card_desc_winter: "Насичений глибокий темний мед, зігріваючий екстракт імбиру та мускатного горіха.",
             btn_to_cart: "В КОШИК",
             hit_badge: "ХІТ ПРОДАЖІВ",
             recipes_title: "АВТОРСЬКІ <span class='gold-accent'>РЕЦЕПТИ</span>",
@@ -192,11 +193,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        const activeHeroFlavor = document.querySelector(".thumb-btn.active").getAttribute("data-flavor");
-        updateHeroText(activeHeroFlavor);
-        
-        const activeRecipeTab = document.querySelector(".recipe-tab-btn.active").getAttribute("data-recipe-flavor");
-        renderRecipes(activeRecipeTab);
+        const activeFlavor = flavorsOrder[1];
+        updateHeroText(activeFlavor);
+        renderRecipes(activeFlavor);
         
         if (currentLang === "en") {
             document.getElementById("client-name").placeholder = "John Doe";
@@ -219,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
         applyLocalization();
     });
 
-    /* HERO UPDATE LOGIC */
+    /* RENDERING & SYNCING LOGIC */
     function updateHeroText(flavor) {
         const subElement = document.getElementById("hero-flavor-subtitle");
         const descElement = document.getElementById("hero-description");
@@ -236,65 +235,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const wrapper = document.querySelector(".main-bottle-wrapper");
         wrapper.className = "main-bottle-wrapper";
 
-        // Inject the specific theme dynamically!
         updateTheme(flavor);
     }
 
-    document.querySelectorAll(".thumb-btn").forEach(btn => {
-        btn.addEventListener("click", function() {
-            document.querySelectorAll(".thumb-btn").forEach(b => b.classList.remove("active"));
-            this.classList.add("active");
-            
-            const selectedFlavor = this.getAttribute("data-flavor");
-            updateHeroText(selectedFlavor);
-            alignCarouselToFlavor(selectedFlavor);
-        });
-    });
-
-    /* INFINITE CAROUSEL */
-    function updateCarouselDOM() {
-        const cards = document.querySelectorAll(".product-card");
-        cards.forEach(card => {
-            const cardFlavor = card.getAttribute("data-flavor");
-            const absolutePositionIndex = flavorsOrder.indexOf(cardFlavor);
-            
-            card.classList.remove("card-position-left", "card-position-center", "card-position-right");
-            
-            if (absolutePositionIndex === 0) card.classList.add("card-position-left");
-            else if (absolutePositionIndex === 1) card.classList.add("card-position-center");
-            else if (absolutePositionIndex === 2) card.classList.add("card-position-right");
-        });
-        
-        const currentCenterFlavor = flavorsOrder[1];
-        document.querySelectorAll(".thumb-btn").forEach(b => {
-            b.classList.remove("active");
-            if (b.getAttribute("data-flavor") === currentCenterFlavor) b.classList.add("active");
-        });
-        updateHeroText(currentCenterFlavor);
-    }
-
-    function rotateCarouselRight() {
-        const lastElement = flavorsOrder.pop();
-        flavorsOrder.unshift(lastElement);
-        updateCarouselDOM();
-    }
-
-    function rotateCarouselLeft() {
-        const firstElement = flavorsOrder.shift();
-        flavorsOrder.push(firstElement);
-        updateCarouselDOM();
-    }
-
-    function alignCarouselToFlavor(targetFlavor) {
-        while (flavorsOrder[1] !== targetFlavor) {
-            rotateCarouselRight();
-        }
-    }
-
-    document.getElementById("carousel-next").addEventListener("click", rotateCarouselRight);
-    document.getElementById("carousel-prev").addEventListener("click", rotateCarouselLeft);
-
-    /* RECIPES */
     function renderRecipes(flavor) {
         const grid = document.getElementById("recipes-grid");
         grid.innerHTML = "";
@@ -316,11 +259,79 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // Головна функція для повної синхронізації всього сайту під обраний смак
+    function syncAllSections(flavor) {
+        // 1. Оновлюємо мініатюри Hero-секції
+        document.querySelectorAll(".thumb-btn").forEach(b => {
+            b.classList.remove("active");
+            if (b.getAttribute("data-flavor") === flavor) b.classList.add("active");
+        });
+        
+        // 2. Оновлюємо вкладки рецептів
+        document.querySelectorAll(".recipe-tab-btn").forEach(t => {
+            t.classList.remove("active");
+            if (t.getAttribute("data-recipe-flavor") === flavor) t.classList.add("active");
+        });
+        
+        // 3. Змінюємо сам контент рецептів
+        renderRecipes(flavor);
+        
+        // 4. Оновлюємо картинку та текст головного екрану (і глобальну тему)
+        updateHeroText(flavor);
+    }
+
+    /* INFINITE CAROUSEL */
+    function updateCarouselDOM() {
+        const cards = document.querySelectorAll(".product-card");
+        cards.forEach(card => {
+            const cardFlavor = card.getAttribute("data-flavor");
+            const absolutePositionIndex = flavorsOrder.indexOf(cardFlavor);
+            
+            card.classList.remove("card-position-left", "card-position-center", "card-position-right");
+            
+            if (absolutePositionIndex === 0) card.classList.add("card-position-left");
+            else if (absolutePositionIndex === 1) card.classList.add("card-position-center");
+            else if (absolutePositionIndex === 2) card.classList.add("card-position-right");
+        });
+        
+        const currentCenterFlavor = flavorsOrder[1];
+        // Синхронізуємо весь сайт із центральною карточкою каруселі
+        syncAllSections(currentCenterFlavor);
+    }
+
+    function rotateCarouselRight() {
+        const lastElement = flavorsOrder.pop();
+        flavorsOrder.unshift(lastElement);
+        updateCarouselDOM();
+    }
+
+    function rotateCarouselLeft() {
+        const firstElement = flavorsOrder.shift();
+        flavorsOrder.push(firstElement);
+        updateCarouselDOM();
+    }
+
+    // Вирівнює карусель так, щоб обраний смак став по центру
+    function alignCarouselToFlavor(targetFlavor) {
+        while (flavorsOrder[1] !== targetFlavor) {
+            rotateCarouselRight();
+        }
+    }
+
+    document.getElementById("carousel-next").addEventListener("click", rotateCarouselRight);
+    document.getElementById("carousel-prev").addEventListener("click", rotateCarouselLeft);
+
+    // Кліки на мініатюрах на головному екрані
+    document.querySelectorAll(".thumb-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            alignCarouselToFlavor(this.getAttribute("data-flavor"));
+        });
+    });
+
+    // Кліки на вкладках рецептів
     document.querySelectorAll(".recipe-tab-btn").forEach(tab => {
         tab.addEventListener("click", function() {
-            document.querySelectorAll(".recipe-tab-btn").forEach(t => t.classList.remove("active"));
-            this.classList.add("active");
-            renderRecipes(this.getAttribute("data-recipe-flavor"));
+            alignCarouselToFlavor(this.getAttribute("data-recipe-flavor"));
         });
     });
 
@@ -333,12 +344,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (open) { 
             drawer.classList.add("open"); 
             backdrop.classList.add("active"); 
-            document.body.style.overflow = "hidden"; // Lock page scroll
+            document.body.style.overflow = "hidden"; // Блокуємо прокрутку
         } 
         else { 
             drawer.classList.remove("open"); 
             backdrop.classList.remove("active"); 
-            document.body.style.overflow = ""; // Restore scroll
+            document.body.style.overflow = ""; // Відновлюємо прокрутку
         }
     }
 
@@ -442,7 +453,6 @@ document.addEventListener("DOMContentLoaded", () => {
             
             renderCart();
 
-            // Temp Button Animation safely executed
             if (!btn.classList.contains("btn-success-anim")) {
                 const originalText = btn.innerHTML;
                 btn.innerHTML = `<i class="fa-solid fa-check"></i>`;
@@ -483,21 +493,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobileMenu = document.getElementById("mobile-menu-overlay");
     document.getElementById("menu-trigger").addEventListener("click", () => {
         mobileMenu.classList.add("open");
-        document.body.style.overflow = "hidden"; // Lock page scroll
+        document.body.style.overflow = "hidden"; // Блокуємо прокрутку
     });
     document.getElementById("menu-close").addEventListener("click", () => {
         mobileMenu.classList.remove("open");
-        document.body.style.overflow = ""; // Restore scroll
+        document.body.style.overflow = ""; // Відновлюємо прокрутку
     });
     document.querySelectorAll(".mobile-link").forEach(link => {
         link.addEventListener("click", () => {
             mobileMenu.classList.remove("open");
-            document.body.style.overflow = ""; // Restore scroll
+            document.body.style.overflow = ""; // Відновлюємо прокрутку
         });
     });
 
-    // Initialize application state
+    // Initialize application state (Викликає повну початкову синхронізацію)
     applyLocalization();
-    updateTheme("classic");
-    renderRecipes("classic");
+    updateCarouselDOM();
 });
