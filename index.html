@@ -17,10 +17,10 @@
 
     <!-- Floating Language Switcher -->
     <button id="lang-toggle" class="lang-switcher-btn" aria-label="Switch Language">
-        <span class="lang-flag">🇬🇧</span> <span class="lang-text">EN</span>
+        <span class="lang-flag">🇬🇧</span>
     </button>
 
-    <!-- Header Navigation (Now Sticky) -->
+    <!-- Header Navigation -->
     <header class="main-header">
         <div class="header-container">
             <!-- Logo area -->
@@ -94,7 +94,6 @@
                         Відкрийте для себе досконалий баланс дикого меду, зібраного в екологічних лісах, та тонких нот натуральних прянощів. Ідеальне доповнення до вашої ранкової кави, вечірнього чаю або авторських коктейлів.
                     </p>
                     <div class="hero-actions-row">
-                        <!-- Removed 'Order Now' button per request -->
                         <a href="#catalog" class="secondary-btn" data-i18n="btn_more">Детальніше</a>
                     </div>
                 </div>
@@ -104,11 +103,9 @@
             <div class="hero-right-display">
                 <div class="glow-backdrop"></div>
                 
-                <!-- Main Showcased Bottle Container (Now Transparent) -->
+                <!-- Main Showcased Bottle Container -->
                 <div class="main-bottle-wrapper">
-                    <!-- Image elements configured to use requested filenames -->
                     <img id="main-bottle-img" src="png_classic.png" alt="BREWMIEL Syrup Bottle" class="showcase-bottle-image" onerror="this.parentElement.classList.add('bottle-image-fallback');">
-                    <!-- Elegant CSS / HTML fallback label styling if local file isn't uploaded yet -->
                     <div class="fallback-label-container">
                         <i class="fa-solid fa-moon fallback-icon"></i>
                         <h3 class="fallback-brand">BREWMIEL</h3>
@@ -172,7 +169,7 @@
                         <p class="card-product-desc" data-i18n="card_desc_classic">Традиційний рецепт з додаванням благородної кориці, кардамону та духмяної гвоздики.</p>
                         <div class="card-footer-row">
                             <span class="product-price">500 ₴</span>
-                            <button class="card-buy-btn highlighted-buy-btn add-to-cart-btn" data-flavor="classic" data-name="Classic Gold" data-price="500" data-i18n="btn_to_cart">В КОШИК</button>
+                            <button class="card-buy-btn add-to-cart-btn" data-flavor="classic" data-name="Classic Gold" data-price="500" data-i18n="btn_to_cart">В КОШИК</button>
                         </div>
                     </div>
                 </div>
@@ -283,7 +280,7 @@
     
     <div id="ui-blur-backdrop" class="ui-blur-backdrop"></div>
 
-    <!-- Success Modal Notification Popup (Used only for checkout now) -->
+    <!-- Success Modal Notification Popup -->
     <div id="success-modal" class="success-notification-modal">
         <div class="success-modal-body">
             <i class="fa-solid fa-circle-check success-check-icon"></i>
