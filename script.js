@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
             catalog_title: "ОБЕРИ <span class='gold-accent'>СМАК</span>",
             card_desc_summer: "Легкий медовий сироп з нотками освіжаючого літнього цитрусу та гірської м'яти.",
             card_desc_classic: "Традиційний рецепт з додаванням благородної кориці, кардамону та духмяної гвоздики.",
-            card_desc_winter: "Насичений глибокий темний мед, зігріваючий екстракт імбиру та мускатного горіха.",
+            card_desc_winter: "Насичений гരുവокий темний мед, зігріваючий екстракт імбиру та мускатного горіха.",
             btn_to_cart: "В КОШИК",
             hit_badge: "ХІТ ПРОДАЖІВ",
             recipes_title: "АВТОРСЬКІ <span class='gold-accent'>РЕЦЕПТИ</span>",
@@ -324,21 +324,33 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    /* CART SYSTEM */
+    /* CART SYSTEM (WITH BODY SCROLL LOCKING) */
     const drawer = document.getElementById("cart-drawer");
     const backdrop = document.getElementById("ui-blur-backdrop");
     const badge = document.getElementById("cart-badge");
 
     function toggleCartView(open = true) {
-        if (open) { drawer.classList.add("open"); backdrop.classList.add("active"); } 
-        else { drawer.classList.remove("open"); backdrop.classList.remove("active"); }
+        if (open) { 
+            drawer.classList.add("open"); 
+            backdrop.classList.add("active"); 
+            document.body.style.overflow = "hidden"; // Lock page scroll
+        } 
+        else { 
+            drawer.classList.remove("open"); 
+            backdrop.classList.remove("active"); 
+            document.body.style.overflow = ""; // Restore scroll
+        }
     }
 
     document.getElementById("cart-trigger").addEventListener("click", () => toggleCartView(true));
     document.getElementById("cart-close").addEventListener("click", () => toggleCartView(false));
     backdrop.addEventListener("click", () => {
         toggleCartView(false);
-        document.getElementById("mobile-menu-overlay").classList.remove("open");
+        const mobileMenu = document.getElementById("mobile-menu-overlay");
+        if(mobileMenu.classList.contains("open")) {
+            mobileMenu.classList.remove("open");
+            document.body.style.overflow = "";
+        }
     });
 
     function renderCart() {
@@ -414,13 +426,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Add to cart with embedded button animation
+    // Add to cart with embedded button animation fix
     document.body.addEventListener("click", (e) => {
-        if (e.target.classList.contains("add-to-cart-btn")) {
-            const flavor = e.target.getAttribute("data-flavor");
+        const btn = e.target.closest(".add-to-cart-btn");
+        if (btn) {
+            const flavor = btn.getAttribute("data-flavor");
             
-            const pName = e.target.getAttribute("data-name") || flavorData[flavor].title;
-            const pPrice = parseInt(e.target.getAttribute("data-price")) || 500;
+            const pName = btn.getAttribute("data-name") || flavorData[flavor].title;
+            const pPrice = parseInt(btn.getAttribute("data-price")) || 500;
             const dynamicName = flavor === "classic" ? "Classic Gold" : (flavor === "summer" ? "Summer Breeze" : "Winter Spice");
 
             const existingRecord = cart.find(i => i.flavor === flavor);
@@ -429,15 +442,17 @@ document.addEventListener("DOMContentLoaded", () => {
             
             renderCart();
 
-            // Temp Button Animation instead of Pop-up Modal
-            const originalText = e.target.innerHTML;
-            e.target.innerHTML = `<i class="fa-solid fa-check"></i>`;
-            e.target.classList.add("btn-success-anim");
-            
-            setTimeout(() => {
-                e.target.innerHTML = originalText;
-                e.target.classList.remove("btn-success-anim");
-            }, 1500);
+            // Temp Button Animation safely executed
+            if (!btn.classList.contains("btn-success-anim")) {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = `<i class="fa-solid fa-check"></i>`;
+                btn.classList.add("btn-success-anim");
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove("btn-success-anim");
+                }, 1500);
+            }
         }
     });
 
@@ -464,12 +479,21 @@ document.addEventListener("DOMContentLoaded", () => {
         backdrop.classList.remove("active");
     });
 
-    /* MOBILE NAV */
+    /* MOBILE NAV (WITH SCROLL LOCKING) */
     const mobileMenu = document.getElementById("mobile-menu-overlay");
-    document.getElementById("menu-trigger").addEventListener("click", () => mobileMenu.classList.add("open"));
-    document.getElementById("menu-close").addEventListener("click", () => mobileMenu.classList.remove("open"));
+    document.getElementById("menu-trigger").addEventListener("click", () => {
+        mobileMenu.classList.add("open");
+        document.body.style.overflow = "hidden"; // Lock page scroll
+    });
+    document.getElementById("menu-close").addEventListener("click", () => {
+        mobileMenu.classList.remove("open");
+        document.body.style.overflow = ""; // Restore scroll
+    });
     document.querySelectorAll(".mobile-link").forEach(link => {
-        link.addEventListener("click", () => mobileMenu.classList.remove("open"));
+        link.addEventListener("click", () => {
+            mobileMenu.classList.remove("open");
+            document.body.style.overflow = ""; // Restore scroll
+        });
     });
 
     // Initialize application state
