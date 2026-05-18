@@ -1,6 +1,6 @@
 /* ==========================================================================
    BREWMIEL WEB INTERACTIVE FUNCTIONALITY SCRIPT
-   Dual Language, Infinite Loop Carousel, Dynamic Cart Engine & Recipes Router
+   Dual Language, Infinite Loop Carousel, Dynamic Cart Engine, Recipes & Themes
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -10,27 +10,35 @@ document.addEventListener("DOMContentLoaded", () => {
     
     let flavorsOrder = ["summer", "classic", "winter"];
     
+    /* THEME COLORS LOGIC */
+    const themeColors = {
+        summer: { primary: "#8BA846", hover: "#9AB850", glow: "rgba(139, 168, 70, 0.15)", text: "#121212" },
+        classic: { primary: "#D4AF37", hover: "#E5A93C", glow: "rgba(212, 175, 55, 0.15)", text: "#121212" },
+        winter: { primary: "#3A6B48", hover: "#4A8259", glow: "rgba(58, 107, 72, 0.15)", text: "#FFFFFF" }
+    };
+
+    function updateTheme(flavor) {
+        document.documentElement.style.setProperty('--gold', themeColors[flavor].primary);
+        document.documentElement.style.setProperty('--gold-light', themeColors[flavor].hover);
+        document.documentElement.style.setProperty('--gold-glow', themeColors[flavor].glow);
+        document.documentElement.style.setProperty('--btn-text-color', themeColors[flavor].text);
+    }
+    
     const flavorData = {
         summer: {
             title: "Summer Breeze",
             subtitle: { ua: "Summer Breeze", en: "Summer Breeze" },
-            img: "png_summer.png",
-            fallbackClass: "summer-fallback",
-            fallbackIcon: "fa-sun"
+            img: "png_summer.png"
         },
         classic: {
             title: "Classic Gold",
             subtitle: { ua: "Classic", en: "Classic" },
-            img: "png_classic.png",
-            fallbackClass: "classic-fallback",
-            fallbackIcon: "fa-crown"
+            img: "png_classic.png"
         },
         winter: {
             title: "Winter Spice",
             subtitle: { ua: "Winter Spice", en: "Winter Spice" },
-            img: "png_winter.png",
-            fallbackClass: "winter-fallback",
-            fallbackIcon: "fa-snowflake"
+            img: "png_winter.png"
         }
     };
 
@@ -203,14 +211,11 @@ document.addEventListener("DOMContentLoaded", () => {
         renderCart();
     }
 
-    // Toggle Flag & Lang Button
+    // Toggle Flag ONLY
     document.getElementById("lang-toggle").addEventListener("click", function() {
         currentLang = currentLang === "ua" ? "en" : "ua";
-        
         const flag = currentLang === "ua" ? "🇬🇧" : "🇺🇦";
-        const txt = currentLang === "ua" ? "EN" : "UA";
-        
-        this.innerHTML = `<span class="lang-flag">${flag}</span> <span class="lang-text">${txt}</span>`;
+        this.innerHTML = `<span class="lang-flag">${flag}</span>`;
         applyLocalization();
     });
 
@@ -230,6 +235,9 @@ document.addEventListener("DOMContentLoaded", () => {
         
         const wrapper = document.querySelector(".main-bottle-wrapper");
         wrapper.className = "main-bottle-wrapper";
+
+        // Inject the specific theme dynamically!
+        updateTheme(flavor);
     }
 
     document.querySelectorAll(".thumb-btn").forEach(btn => {
@@ -464,6 +472,8 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener("click", () => mobileMenu.classList.remove("open"));
     });
 
+    // Initialize application state
     applyLocalization();
+    updateTheme("classic");
     renderRecipes("classic");
 });
