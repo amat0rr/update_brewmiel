@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BREWMIEL | Premium Craft Syrup & Honey</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Floating Language Switcher -->
+    <button id="lang-toggle" class="lang-switcher-btn" aria-label="Switch Language">
+        <span class="lang-flag">🇬🇧</span> <span class="lang-text">EN</span>
+    </button>
+
+    <!-- Header Navigation (Now Sticky) -->
+    <header class="main-header">
+        <div class="header-container">
+            <!-- Logo area -->
+            <a href="#" class="logo-area" aria-label="BREWMIEL Home">
+                <img src="logo.svg" alt="BREWMIEL Logo" class="brand-logo" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';">
+                <div id="logo-fallback" class="logo-fallback-art" style="display:none;">
+                    <i class="fa-solid fa-moon"></i>
+                </div>
+                <span class="brand-name">BREWMIEL</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="desktop-nav">
+                <div class="pill-nav-container">
+                    <a href="#hero" class="nav-link active" data-i18n="nav_home">Головна</a>
+                    <a href="#catalog" class="nav-link" data-i18n="nav_catalog">Каталог</a>
+                    <a href="#recipes" class="nav-link" data-i18n="nav_recipes">Рецепти</a>
+                    <a href="#about" class="nav-link" data-i18n="nav_about">Про нас</a>
+                </div>
+            </nav>
+
+            <!-- Actions (Cart & Mobile menu trigger) -->
+            <div class="header-actions">
+                <button id="cart-trigger" class="cart-btn" aria-label="Shopping Cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span id="cart-badge" class="cart-notification-dot"></span>
+                </button>
+                <button id="menu-trigger" class="mobile-menu-btn" aria-label="Open Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Menu Overlay -->
+    <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+        <button id="menu-close" class="menu-close-btn"><i class="fa-solid fa-xmark"></i></button>
+        <nav class="mobile-nav-links">
+            <a href="#hero" class="mobile-link" data-i18n="nav_home">Головна</a>
+            <a href="#catalog" class="mobile-link" data-i18n="nav_catalog">Каталог</a>
+            <a href="#recipes" class="mobile-link" data-i18n="nav_recipes">Рецепти</a>
+            <a href="#about" class="mobile-link" data-i18n="nav_about">Про нас</a>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="hero-container">
+            <!-- Left Side: Flavor thumbnails and content description -->
+            <div class="hero-left-content">
+                <!-- Flavor Selector Thumbnail Pill -->
+                <div class="flavor-thumbnail-pill">
+                    <button class="thumb-btn" data-flavor="summer" aria-label="Summer Breeze flavor">
+                        <span class="thumb-dot summer-dot"></span>
+                    </button>
+                    <button class="thumb-btn active" data-flavor="classic" aria-label="Classic Gold flavor">
+                        <span class="thumb-dot classic-dot"></span>
+                    </button>
+                    <button class="thumb-btn" data-flavor="winter" aria-label="Winter Spice flavor">
+                        <span class="thumb-dot winter-dot"></span>
+                    </button>
+                </div>
+
+                <!-- Texts and CTA -->
+                <div class="hero-text-block">
+                    <h1 class="hero-title">
+                        BREWMIEL <br>
+                        <span id="hero-flavor-subtitle" class="gold-accent italic-serif">Classic</span>
+                    </h1>
+                    <p id="hero-description" class="hero-description-text" data-i18n="hero_desc_classic">
+                        Відкрийте для себе досконалий баланс дикого меду, зібраного в екологічних лісах, та тонких нот натуральних прянощів. Ідеальне доповнення до вашої ранкової кави, вечірнього чаю або авторських коктейлів.
+                    </p>
+                    <div class="hero-actions-row">
+                        <!-- Removed 'Order Now' button per request -->
+                        <a href="#catalog" class="secondary-btn" data-i18n="btn_more">Детальніше</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Large bottle display with floating organic details -->
+            <div class="hero-right-display">
+                <div class="glow-backdrop"></div>
+                
+                <!-- Main Showcased Bottle Container (Now Transparent) -->
+                <div class="main-bottle-wrapper">
+                    <!-- Image elements configured to use requested filenames -->
+                    <img id="main-bottle-img" src="png_classic.png" alt="BREWMIEL Syrup Bottle" class="showcase-bottle-image" onerror="this.parentElement.classList.add('bottle-image-fallback');">
+                    <!-- Elegant CSS / HTML fallback label styling if local file isn't uploaded yet -->
+                    <div class="fallback-label-container">
+                        <i class="fa-solid fa-moon fallback-icon"></i>
+                        <h3 class="fallback-brand">BREWMIEL</h3>
+                        <span id="fallback-edition" class="fallback-edition-text">CLASSIC EDITION</span>
+                    </div>
+                </div>
+
+                <!-- Floating organic decoration elements -->
+                <div class="floating-element spice-anise animate-float-slow">
+                    <i class="fa-solid fa-star bg-spice-icon" title="Star Anise"></i>
+                </div>
+                <div class="floating-element spice-cinnamon animate-float-fast">
+                    <div class="cinnamon-stick-graphic"></div>
+                </div>
+                <div class="floating-element spice-leaf animate-float-medium">
+                    <i class="fa-solid fa-leaf bg-leaf-icon"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Selection Carousel Section -->
+    <section id="catalog" class="catalog-section">
+        <div class="section-header text-center">
+            <h2 class="section-title" data-i18n="catalog_title">ОБЕРИ <span class="gold-accent">СМАК</span></h2>
+            <div class="decorative-line"></div>
+        </div>
+
+        <div class="carousel-outer-wrapper">
+            <button id="carousel-prev" class="carousel-nav-arrow left-arrow" aria-label="Previous flavor">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+
+            <div id="carousel-track" class="carousel-cards-track">
+                
+                <!-- Card 1: Summer Breeze -->
+                <div class="product-card card-position-left" data-flavor="summer">
+                    <div class="card-image-area">
+                        <img src="png_summer.png" alt="Summer Breeze Syrup" class="card-bottle-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="card-img-fallback-placeholder summer-fallback"><i class="fa-solid fa-sun"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-product-title">Summer Breeze</h3>
+                        <p class="card-product-desc" data-i18n="card_desc_summer">Легкий медовий сироп з нотками освіжаючого літнього цитрусу та гірської м'яти.</p>
+                        <div class="card-footer-row">
+                            <span class="product-price">450 ₴</span>
+                            <button class="card-buy-btn add-to-cart-btn" data-flavor="summer" data-name="Summer Breeze" data-price="450" data-i18n="btn_to_cart">В КОШИК</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Classic Gold -->
+                <div class="product-card card-position-center" data-flavor="classic">
+                    <div class="hit-badge" data-i18n="hit_badge">ХІТ ПРОДАЖІВ</div>
+                    <div class="card-image-area">
+                        <img src="png_classic.png" alt="Classic Gold Syrup" class="card-bottle-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="card-img-fallback-placeholder classic-fallback"><i class="fa-solid fa-crown"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-product-title">Classic Gold</h3>
+                        <p class="card-product-desc" data-i18n="card_desc_classic">Традиційний рецепт з додаванням благородної кориці, кардамону та духмяної гвоздики.</p>
+                        <div class="card-footer-row">
+                            <span class="product-price">500 ₴</span>
+                            <button class="card-buy-btn highlighted-buy-btn add-to-cart-btn" data-flavor="classic" data-name="Classic Gold" data-price="500" data-i18n="btn_to_cart">В КОШИК</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Winter Spice -->
+                <div class="product-card card-position-right" data-flavor="winter">
+                    <div class="card-image-area">
+                        <img src="png_winter.png" alt="Winter Spice Syrup" class="card-bottle-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="card-img-fallback-placeholder winter-fallback"><i class="fa-solid fa-snowflake"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-product-title">Winter Spice</h3>
+                        <p class="card-product-desc" data-i18n="card_desc_winter">Насичений глибокий темний мед, зігріваючий екстракт імбиру та мускатного горіха.</p>
+                        <div class="card-footer-row">
+                            <span class="product-price">550 ₴</span>
+                            <button class="card-buy-btn add-to-cart-btn" data-flavor="winter" data-name="Winter Spice" data-price="550" data-i18n="btn_to_cart">В КОШИК</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <button id="carousel-next" class="carousel-nav-arrow right-arrow" aria-label="Next flavor">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Recipes Section -->
+    <section id="recipes" class="recipes-section">
+        <div class="section-header text-center">
+            <h2 class="section-title" data-i18n="recipes_title">АВТОРСЬКІ <span class="gold-accent">РЕЦЕПТИ</span></h2>
+            <div class="decorative-line"></div>
+        </div>
+
+        <div class="recipes-tabs-bar">
+            <button class="recipe-tab-btn" data-recipe-flavor="summer">Summer Breeze</button>
+            <button class="recipe-tab-btn active" data-recipe-flavor="classic">Classic Gold</button>
+            <button class="recipe-tab-btn" data-recipe-flavor="winter">Winter Spice</button>
+        </div>
+
+        <div id="recipes-grid" class="recipes-grid-layout">
+        </div>
+    </section>
+
+    <!-- About Us & Socials Section -->
+    <section id="about" class="about-section">
+        <div class="about-grid-container">
+            <div class="about-text-column">
+                <h2 class="about-title" data-i18n="about_title">ПРО <span class="gold-accent">BREWMIEL</span></h2>
+                <p class="about-para" data-i18n="about_p1">Ми — артизанальна сімейна майстерня, що створює преміальні сиропи та крафтовий мед високої культури смаку. Наша місія полягає в об'єднанні незайманої чистоти натурального меду з витонченим світом гастрономічних спецій.</p>
+                <p class="about-para" data-i18n="about_p2">Кожна партія виготовляється вручну невеликими лімітованими об'ємами, використовуючи виключно екологічну сировину з диких лісових пасік. Ми ретельно тестуємо кожен інгредієнт, щоб забезпечити глибокий, оксамитовий післясмак у кожній краплі нашого продукту.</p>
+                
+                <div class="social-links-block">
+                    <h4 class="social-header-text" data-i18n="about_socials">Ми в соціальних мережах:</h4>
+                    <div class="social-icons-row">
+                        <a href="https://instagram.com" target="_blank" rel="noopener" class="social-icon-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener" class="social-icon-link" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="https://tiktok.com" target="_blank" rel="noopener" class="social-icon-link" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="about-visual-column">
+                <div class="about-image-frame">
+                    <div class="frame-branding-accent">
+                        <span class="est-year">EST. 2024</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Drawer Overlay Panel -->
+    <div id="cart-drawer" class="cart-drawer-panel">
+        <div class="cart-drawer-header">
+            <h3 class="cart-drawer-title"><i class="fa-solid fa-bag-shopping gold-accent"></i> <span data-i18n="cart_header">Ваш Кошик</span></h3>
+            <button id="cart-close" class="cart-close-btn" aria-label="Close cart"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div id="cart-items-container" class="cart-items-scroll-area">
+        </div>
+
+        <div class="cart-drawer-footer">
+            <div class="cart-total-row">
+                <span class="total-label" data-i18n="cart_total">Загальна сума:</span>
+                <span id="cart-total-price" class="total-value">0 ₴</span>
+            </div>
+
+            <form id="checkout-form" class="checkout-data-form">
+                <h4 class="form-section-title" data-i18n="form_title">Дані для доставки</h4>
+                <div class="form-input-group">
+                    <label for="client-name" data-i18n="form_name">Ім'я та Прізвище</label>
+                    <input type="text" id="client-name" required placeholder="Іван Іванов">
+                </div>
+                <div class="form-input-group">
+                    <label for="client-phone" data-i18n="form_phone">Номер телефону</label>
+                    <input type="tel" id="client-phone" required placeholder="+380 99 999 9999">
+                </div>
+                <div class="form-input-group">
+                    <label for="client-address" data-i18n="form_address">Адреса доставки (Нова Пошта / Місто)</label>
+                    <input type="text" id="client-address" required placeholder="Київ, Відділення №1">
+                </div>
+                <button type="submit" id="submit-order-btn" class="submit-checkout-btn" data-i18n="btn_checkout">Оформити Замовлення</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="ui-blur-backdrop" class="ui-blur-backdrop"></div>
+
+    <!-- Success Modal Notification Popup (Used only for checkout now) -->
+    <div id="success-modal" class="success-notification-modal">
+        <div class="success-modal-body">
+            <i class="fa-solid fa-circle-check success-check-icon"></i>
+            <h3 id="success-title">Замовлення успішно прийнято!</h3>
+            <p id="success-message">Дякуємо за вибір BREWMIEL. Наш менеджер зв'яжеться з вами найближчим часом.</p>
+            <button id="success-close-btn" class="primary-btn">OK</button>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
